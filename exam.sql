@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2025 at 10:42 AM
+-- Generation Time: Jan 16, 2025 at 10:13 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -88,7 +88,9 @@ CREATE TABLE `question` (
 INSERT INTO `question` (`q_id`, `course_id`, `topic_id`, `question`, `options`, `ans`) VALUES
 (1, 4, 7, 'Which control structure is used to repeatedly execute a block of code in C ?', 'nested if,if statement,switch case,while loop', 'd'),
 (2, 4, 7, 'What is the result of the expression 5 > 3 && 4 < 6 in C ?', 'true,false,1,0', 'a'),
-(3, 4, 7, 'if then else if is also known as....', 'nested if,if with else,if else if ladder,if without else', 'c');
+(3, 4, 7, 'if then else if is also known as....', 'nested if,if with else,if else if ladder,if without else', 'c'),
+(4, 4, 8, 'how many times of loop ?', '3,2,1,4', 'a'),
+(6, 4, 7, 'how many times of loop ?', 'nested if,true,nested if,true', 'c');
 
 -- --------------------------------------------------------
 
@@ -133,17 +135,17 @@ CREATE TABLE `user_tbl` (
   `password` text NOT NULL,
   `course_id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
-  `exam_id` text DEFAULT NULL
+  `exam_id` text NOT NULL,
+  `exam_attend` text NOT NULL,
+  `running_exam` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_tbl`
 --
 
-INSERT INTO `user_tbl` (`id`, `name`, `email`, `password`, `course_id`, `status`, `exam_id`) VALUES
-(1, 'Ravi Jasoliya', 'languagepdf@gmail.com', '123', 1, 0, '4'),
-(2, 'Jaydeep thummar', 'jaydeepthummar@gmail.com', '159', 3, 0, '4'),
-(3, 'chirag', 'chirag@gmail.com', '123', 1, 0, '4');
+INSERT INTO `user_tbl` (`id`, `name`, `email`, `password`, `course_id`, `status`, `exam_id`, `exam_attend`, `running_exam`) VALUES
+(1, 'ravi mukeshbhai jasoliya', 'jasoliyaravi@gmail.com', '123', 4, 0, '4', '', '');
 
 --
 -- Indexes for dumped tables
@@ -199,7 +201,7 @@ ALTER TABLE `course_tbl`
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `q_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `q_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `topic_tbl`
@@ -211,7 +213,7 @@ ALTER TABLE `topic_tbl`
 -- AUTO_INCREMENT for table `user_tbl`
 --
 ALTER TABLE `user_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
