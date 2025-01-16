@@ -50,8 +50,15 @@ function showTab(n) {
         document.getElementById("prevBtn").style.display = "inline";
     }
     if (n == (x.length - 1)) {
-        document.getElementById("nextBtn").innerHTML = "Submit";
+
+        setTimeout(()=>{
+            document.getElementById("nextBtn").innerHTML = "Submit";
+            document.getElementById("nextBtn").type = "submit";
+            document.getElementById("nextBtn").name = "send_ans";
+        },2000);
+
     } else {
+        document.getElementById("nextBtn").type = "button";
         document.getElementById("nextBtn").innerHTML = "Next Question" + ' <span><i class="fas fa-arrow-right"></i></span>';
     }
     // ... and run a function that displays the correct step indicator:
@@ -68,10 +75,9 @@ function nextPrev(n) {
     // Increase or decrease the current tab by 1:
     currentTab = currentTab + n;
     // if you have reached the end of the form... :
-    if (currentTab >= x.length) {
+    if (currentTab > x.length) {
         //...the form gets submitted:
         document.getElementById("wizard").submit();
-        return false;
     }
     // Otherwise, display the correct tab:
     showTab(currentTab);

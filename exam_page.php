@@ -7,9 +7,21 @@ $topic_id = $_GET['topic_id'];
 $question = mysqli_query($con,"select * from question where topic_id=$topic_id");
 $t_question = mysqli_query($con,"select count(q_id) as total_question from question where topic_id=$topic_id");
 $t_question = mysqli_fetch_assoc($t_question);
-$time = $t_question['total_question']*2;
+$time = $t_question['total_question']*1;
 
+// GET topic Name:
 
+$topic_name = mysqli_query($con,"select * from topic_tbl where t_id=$topic_id");
+$t_name = mysqli_fetch_assoc($topic_name);
+
+if (isset($_POST['send_ans'])) {
+   
+   print_r($_POST); die();
+   $ans = $_POST['ans'];
+
+   echo "<pre>";
+   print_r($ans); die();
+}
 
  ?>
 
@@ -66,10 +78,11 @@ $time = $t_question['total_question']*2;
    </div>
 </div>
 <div class="container">
-   <form class="multisteps_form position-relative overflow-hidden mt-5" id="wizard" method="POST" action="https://jthemes.net/themes/html/quizo/thankyou/index-3.html">
+
+   <form class="multisteps_form position-relative overflow-hidden mt-5"  method="POST">
       <!-- Form-header-content -->
       <div class="form_header_content text-center pt-4">
-         <h2>Exam Title</h2>
+         <h2><?php echo strtoupper($t_name['topic_name']); ?></h2>
          <!-- <span>Fill out this Tirnva quiz for fun!</span> -->
       </div>
 
@@ -86,12 +99,12 @@ $time = $t_question['total_question']*2;
                <div class="form_items ps-5">
                   <ul class="list-unstyled p-0">
 
-                  <?php foreach ($option_array as $key => $value) { ?>
+                  <?php $options = array('a','b','c','d'); $i=0; foreach ($option_array as $key => $value) { ?>
                      
-                     <li class=" step_1 ps-5 rounded-pill animate__animated animate__fadeInRight animate_50ms">
-                        <input type="radio" id="opt_1" name="stp_1_select_option" value="<?php echo $value; ?>">
+                     
+                        <input type="checkbox" name="ans[]" value="<?php echo $options[$i].'-'.$question_row['q_id']; $i++; ?>">
                         <label for="opt_1"><?php echo $value; ?></label>
-                     </li>
+                     
                   <?php } ?>
 
                   </ul>
@@ -99,14 +112,17 @@ $time = $t_question['total_question']*2;
          </div>
          <?php $q_no++; } ?>
       </div>
+      
+      <!---------- Form Button ---------->
+      <div class="form_btn py-5 text-center">
+
+         <button type="button" class="f_btn disable text-uppercase rounded-pill text-white" id="prevBtn" onclick="nextPrev(-1)"><span><i class="fas fa-arrow-left"></i></span> Last Question</button>
+
+         <button type="button" class="f_btn active text-uppercase rounded-pill text-white" id="nextBtn" onclick="nextPrev(1)"> Next Question <i class="fas fa-arrow-right"></i></button>
+
+      </div>
    </form>
-   <!---------- Form Button ---------->
-   <div class="form_btn py-5 text-center">
-      <button type="button" class="f_btn disable text-uppercase rounded-pill text-white" id="prevBtn" onclick="nextPrev(-1)"><span><i class="fas fa-arrow-left"></i></span> Last Question</button>
 
-      <button type="button" class="f_btn active text-uppercase rounded-pill text-white" id="nextBtn" onclick="nextPrev(1)"> Next Question <i class="fas fa-arrow-right"></i></button>
-
-   </div>
 </div>
 <!-- jQuery-js include -->
 <script src="assets/js/jquery-3.6.0.min.js"></script>
@@ -122,6 +138,8 @@ $time = $t_question['total_question']*2;
 </html>
 
 <script type="text/javascript">
+
+
 
      function countdown(minit) {
 
@@ -154,5 +172,6 @@ $time = $t_question['total_question']*2;
         tick();
     }
 </script>
+
 
 <?php echo "<script>countdown(".$time.");</script>"; ?>
