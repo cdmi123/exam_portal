@@ -1,0 +1,29 @@
+
+ <div id="counter"></div>
+
+<script type="text/javascript">
+	  function countdown() {
+        var seconds = 5;
+        var minit = 6;
+        function tick() {
+            var counter = document.getElementById("counter");
+            seconds--;
+
+            if(seconds==0)
+            {
+            	minit--;
+            	seconds=5;
+            }
+
+            counter.innerHTML = minit-1+":" + (seconds < 10 ? "0" : "") + String(seconds);
+            if( minit > 0 ) {
+
+                setTimeout(tick, 1000);
+            } else {
+                alert("Game over");
+            }
+        }
+        tick();
+    }
+    countdown();
+</script>
