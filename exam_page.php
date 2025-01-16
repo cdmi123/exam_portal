@@ -49,6 +49,49 @@ if (isset($_POST['send_ans'])) {
     font-weight: bold;
     line-height: 80px;
       }
+      .chkbox{
+         position: relative;
+         appearance: none;
+         width: 1.875rem;
+          height: 1.875rem;
+          border-radius: 100%;
+          border: 2px solid #e2e2e2;
+          margin-right: 20px;
+          background: -webkit-gradient(linear, left top, left bottom, from(#38cedc), to(#5784dd));
+          background: linear-gradient(#38cedc, #5784dd);
+          position: relative;
+      }
+      .chkbox::before
+      {
+         height: 13px;
+         width: 13px;
+         background: white;
+         border-radius: 50%;
+         content: '';
+         position: absolute;
+         top: 6px;
+         left: 6px;
+         opacity: 0;
+         visibility: hidden;
+         transition: .25s;
+      }
+      .chkbox:checked::before{
+         opacity: 1;
+         visibility: visible;
+      }
+      .chkbox:checked + span{
+         color: #5784dd;
+      }
+      .chkbox + span{
+         font-size: 20px;
+      }
+      .custbox{
+         display: flex;
+      }
+      label
+      {
+         display: flex;
+      }
    </style>
 <div class="wrapper position-relative">
 <div class="top_content_area pt-2">
@@ -99,11 +142,15 @@ if (isset($_POST['send_ans'])) {
                <div class="form_items ps-5">
                   <ul class="list-unstyled p-0">
 
-                  <?php $options = array('a','b','c','d'); $i=0; foreach ($option_array as $key => $value) { ?>
+                  <?php $cnt=0; $options = array('a','b','c','d'); $i=0; foreach ($option_array as $key => $value) { ?>
                      
-                     
-                        <input type="checkbox" name="ans[]" value="<?php echo $options[$i].'-'.$question_row['q_id']; $i++; ?>">
-                        <label for="opt_1"><?php echo $value; ?></label>
+                     <!-- <li class=" step_1 ps-5 rounded-pill animate__animated animate__fadeInRight animate_50ms"></li> -->
+                        <div class="d-flex mb-4">
+                           <label>
+                              <input type="checkbox" id="ch_<?php echo $cnt;?>" class="chkbox" name="ans[]" value="<?php echo $options[$i].'-'.$question_row['q_id']; $i++; ?>" >
+                           <span><?php echo $value; ?></span>
+                           </label>
+                        </div>
                      
                   <?php } ?>
 

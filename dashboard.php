@@ -21,6 +21,8 @@ $course_data = mysqli_query($con,"select * from course_tbl where c_id in ($exam_
     border-radius: 50%;
     cursor: default;
   }
+
+  
 </style>
         <div>
           <h4 class="mb-3">Quizzes</h4>
