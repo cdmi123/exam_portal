@@ -42,16 +42,33 @@ rel="stylesheet" href="assets/css/styles.min.css" /> </head>
 
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-5"></i>
-              <span class="hide-menu">Manage Course</span>
+              <span class="hide-menu">Manage Student</span>
             </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link sidebar-link primary-hover-bg" href="#" aria-expanded="false">
+             <li class="sidebar-item">
+              <a class="sidebar-link sidebar-link primary-hover-bg" href="exam.php" aria-expanded="false">
                 <span class="aside-icon p-2 bg-light-primary rounded-1">
                   <i class="ti ti-article fs-7"></i>
                 </span>
-                <span class="hide-menu ps-1">Add Course</span>
+                <span class="hide-menu ps-1">View Exam</span>
               </a>
             </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link sidebar-link primary-hover-bg" href="student.php" aria-expanded="false">
+                <span class="aside-icon p-2 bg-light-primary rounded-1">
+                  <i class="ti ti-article fs-7"></i>
+                </span>
+                <span class="hide-menu ps-1">View Result</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link sidebar-link primary-hover-bg" href="logout.php" aria-expanded="false">
+                <span class="aside-icon p-2 bg-light-primary rounded-1">
+                  <i class="ti ti-article fs-7"></i>
+                </span>
+                <span class="hide-menu ps-1">Logout</span>
+              </a>
+            </li>
+
           </ul>
         </nav>
         <!-- End Sidebar navigation -->

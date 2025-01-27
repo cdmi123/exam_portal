@@ -1,15 +1,50 @@
-<?php include_once 'header.php'; 
-$stu_id = $_SESSION['login_id'];
-
+<?php 
+include_once 'header.php'; 
 unset($_SESSION['running_id']);
 
- mysqli_query($con,"update user_tbl SET running_exam='' where id=$stu_id");
+$stu_id = $_SESSION['login_id'];
+$topic_id = $_GET['topic_id'];
+
+mysqli_query($con,"update user_tbl SET running_exam='' where id=$stu_id");
 
 $user_data = mysqli_query($con,"select * from user_tbl where id=$stu_id");
 $row_user = mysqli_fetch_assoc($user_data);
 $exam_id = $row_user['exam_id'];
 
 $course_data = mysqli_query($con,"select * from course_tbl where c_id in ($exam_id)");
+
+// Select Exam Score
+
+$exam_report_query = mysqli_query($con,"select * from exam_report where t_id=$topic_id and s_id=$stu_id order by id desc limit 0,1");
+$exam_data = mysqli_fetch_assoc($exam_report_query);
+
+$ans_arry = json_decode($exam_data['check_ans'],true);
+$right=0;
+$wrong=0;
+  foreach ($ans_arry as $key => $value) {
+      if($value=="R"){
+        $right++;
+      }else{
+        $wrong++;
+      }
+  }
+
+  // Find Rank of exam
+
+  $total_exam_query = mysqli_query($con,"select * from exam_report where t_id=$topic_id");
+  $total_exam = mysqli_num_rows($total_exam_query);
+
+  $exam_rank_query = mysqli_query($con,"SELECT * from exam_report where t_id=$topic_id ORDER BY right_ans desc;");
+  $rank=0;
+  while($exam_rank_data = mysqli_fetch_assoc($exam_rank_query)){
+
+    if($stu_id!=$exam_rank_data['s_id']){
+      $rank++;
+    }else{
+      $rank++;
+      break;
+    }
+  } 
 
 ?>
 <style>
@@ -34,16 +69,16 @@ $course_data = mysqli_query($con,"select * from course_tbl where c_id in ($exam_
                     <img src="./assets/images/logos/achevement.webp" style="max-width:70px;" alt="">
                     <div>
                       <p class="m-0 mt-2 fs-2">YOUR RANK</p>
-                      <h3>185 / 333</h3>
+                      <h3> <?php echo $rank; ?> / <?php echo $total_exam; ?></h3>
                     </div>
                     <div class="row mt-4">
                       <div class="col">
                         <p class="mb-0 fs-2">INCORRECT</p>
-                        <h4>9</h4>
+                        <h4><?php echo $wrong; ?></h4>
                       </div>
                       <div class="col border-start border-end">
                         <p class="mb-0 fs-2">CORRECT</p>
-                        <h4>16</h4>
+                        <h4><?php echo $right; ?></h4>
                       </div>
                       <div class="col">
                         <p class="mb-0 fs-2">TIME TAKEN</p>
@@ -56,10 +91,24 @@ $course_data = mysqli_query($con,"select * from course_tbl where c_id in ($exam_
                   <h5 class="text-center">Your Answers</h5>
                   <div class="px-4">
                     <div class="row my-3 g-3 mb-4 justify-content-center">
+
+                    <?php $q_no=1; foreach ($ans_arry as $key => $value) {
+
+                        if($value=="R"){
+                          $color = "success";
+                        }else{
+                          $color = "danger";
+                        }
+
+                     ?>
+                      
                       <div class="col-auto">
-                        <div class="dot_box text-bg-success">1</div>
+                        <div class="dot_box text-bg-<?php echo $color; ?>"><?php echo $q_no++; ?></div>
                       </div>
-                      <div class="col-auto">
+
+                    <?php } ?>
+
+               <!--        <div class="col-auto">
                         <div class="dot_box text-bg-success">2</div>
                       </div>
                       <div class="col-auto">
@@ -115,7 +164,7 @@ $course_data = mysqli_query($con,"select * from course_tbl where c_id in ($exam_
                       </div>
                       <div class="col-auto">
                         <div class="dot_box text-bg-success">20</div>
-                      </div>
+                      </div> -->
                     </div>
                     <div class="d-flex gap-3 justify-content-center">
                       <a href="" class="btn btn-outline-secondary rounded-0 px-3">View Solution</a>

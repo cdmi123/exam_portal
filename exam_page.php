@@ -4,6 +4,8 @@
 include_once 'admin/db.php';
 
 $topic_id = $_GET['topic_id'];
+$stu_id = $_SESSION['login_id'];
+
 $question = mysqli_query($con,"select * from question where topic_id=$topic_id");
 $t_question = mysqli_query($con,"select count(q_id) as total_question from question where topic_id=$topic_id");
 $t_question = mysqli_fetch_assoc($t_question);
@@ -15,12 +17,37 @@ $topic_name = mysqli_query($con,"select * from topic_tbl where t_id=$topic_id");
 $t_name = mysqli_fetch_assoc($topic_name);
 
 if (isset($_POST['send_ans'])) {
-   
-   print_r($_POST); die();
-   $ans = $_POST['ans'];
 
-   echo "<pre>";
-   print_r($ans); die();
+   unset($_POST['send_ans']);
+   $ans = $_POST['ans'];
+   // echo "<pre>";
+   // print_r($ans); 
+
+
+   $ans_arry = array();
+   $right=0;
+   $wrong=0;
+
+      foreach ($ans as $key => $value) {
+            $question_ans = explode('-',$value);
+            $check_ans = mysqli_query($con,"select * from question where topic_id=$topic_id and q_id=$question_ans[1] and ans='$question_ans[0]'");
+            $count_ans = mysqli_num_rows($check_ans);
+
+               if($count_ans==1){
+                  $ans_arry[$question_ans[1]] = "R";
+                  $right++;
+               }else{
+                  $ans_arry[$question_ans[1]] = "W";
+                  $wrong++;
+               }
+      }
+      $ans = json_encode($ans);
+      $ans_arry = json_encode($ans_arry);
+
+         mysqli_query($con,"insert into exam_report(ans,t_id,s_id,check_ans,right_ans,wrong_ans)values('$ans','$topic_id','$stu_id','$ans_arry','$right','$wrong')");
+
+      header('location:scorecard.php?topic_id='.$topic_id);
+
 }
 
  ?>

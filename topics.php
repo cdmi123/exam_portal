@@ -1,4 +1,4 @@
-<?php include_once 'header.php';
+<?php ob_start(); include_once 'header.php';
 
 
 

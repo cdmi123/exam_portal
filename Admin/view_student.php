@@ -7,17 +7,12 @@ $user_data = mysqli_query($con,"select * from user_tbl");
 	<div class="body-wrapper">
       <div class="container-fluid">
         <div class="card" style="background: rgba(255,255,255, 0.4);">
-        	<div class="card-body">
+        	<div class="card-body"style=" padding-bottom: 0;">
             <h5 class="card-title fw-semibold mb-4">Forms</h5>
             <div class="row">
             	<div class="col-12">
-            		<div class="card">
-		              <div class="card-body">
-		              		<table class="table table-borderless">
-		              			<tr>
-		              				<td><input type="text" name="srch" class="form-control" placeholder="Search Student" id="srch_student"></td>
-		              			</tr>
-		              		</table>
+            		<div class="card" style=" margin-bottom: 0;">
+		              <div class="card-body"><input type="text" name="srch" class="form-control" placeholder="Search Student" id="srch_student">
 		              </div>
 		            </div>
             	</div>
